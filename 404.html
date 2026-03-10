@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tvef vote</title>
+    <script>
+        const base = "/tvef-vote-frontend";
+        const path = window.location.pathname.replace(base, "");
+        window.location.replace(
+            base + "/?/" + path.slice(1) + window.location.search + window.location.hash
+        );
+    </script>
+
+</head>
+
+<body>
+</body>
+
+</html>
