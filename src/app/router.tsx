@@ -33,4 +33,8 @@ export const router = createBrowserRouter([
     path: "*",
     element: <NotFoundPage />,
   },
-]);
+],
+  {
+    basename: "/tvef-vote-frontend",
+  }
+);
