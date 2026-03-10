@@ -7,7 +7,7 @@ import { semiFinalOptions, votingPoints } from "../utils/constants";
 import { api } from "../services/axios";
 import type { Country } from "../types/country";
 import type { Participant } from "../types/participant";
-import { MyResult } from "./myResult";
+import { ShowResult } from "./ShowResult";
 
 const getYoutubeEmbedUrl = (url?: string) => {
   if (!url) return "";
@@ -427,7 +427,7 @@ export default function HomePage() {
 
       {
         showMyResult && (
-          <MyResult submitVotes={submitVotes} clearData={clearData} selectedVotes={selectedVotes} participants={participants} />
+          <ShowResult submitVotes={submitVotes} clearData={clearData} selectedVotes={selectedVotes} participants={participants} />
         )
       }
     </div>

@@ -7,7 +7,7 @@ type MyResultProps = {
   participants: Participant[];
 };
 
-export const MyResult = ({
+export const ShowResult = ({
   submitVotes,
   clearData,
   selectedVotes,
