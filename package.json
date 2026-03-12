@@ -1,8 +1,7 @@
 {
-  "homepage": "https://vidadiali.github.io/tvef-vote-frontend",
-  "name": "eurofans-vote",
-  "private": true,
+  "name": "tvef-vote-frontend",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",

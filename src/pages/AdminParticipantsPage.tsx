@@ -6,6 +6,8 @@ import { semiFinalOptions } from "../utils/constants";
 import type { Country } from "../types/country";
 import type { Participant } from "../types/participant";
 import { Pencil, Trash2 } from "lucide-react";
+import DeleteElement from "../loadings/DeleteElement";
+import MainPageLoadings from "../loadings/MainPageLoadings";
 
 export default function AdminParticipantsPage() {
     const dispatch = useAppDispatch();
@@ -16,6 +18,9 @@ export default function AdminParticipantsPage() {
 
     const [participants, setParticipants] = useState<Participant[]>([])
     const [editParticipant, setEditParticipant] = useState<String>("");
+    const [deleteItemLoading, setDeleteItemLoading] = useState(false)
+    const [mainLoading, setMainLoading] = useState(false)
+    const [deletingElementIndex, setDeletingElementIndex] = useState<Number>(-1);
 
     const [form, setForm] = useState({
         participantName: "",
@@ -128,6 +133,7 @@ export default function AdminParticipantsPage() {
 
     const getAllParticipants = async () => {
         try {
+            setMainLoading(true)
             const res = await api.get<Participant[]>('/participant/getAllParticipants');
             setParticipants(res?.data);
 
@@ -140,6 +146,9 @@ export default function AdminParticipantsPage() {
                     message: "message",
                 })
             );
+        }
+        finally{
+            setMainLoading(false)
         }
     }
 
@@ -155,8 +164,10 @@ export default function AdminParticipantsPage() {
         setEditParticipant(participant._id)
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: string, index: number) => {
         try {
+            setDeleteItemLoading(true)
+            setDeletingElementIndex(index)
             const res = await api.delete(`/participant/deleteParticipantById/${id}`);
             setParticipants(res?.data?.newData)
         } catch (error: any) {
@@ -169,11 +180,20 @@ export default function AdminParticipantsPage() {
                 })
             );
         }
+        finally {
+            setDeleteItemLoading(false)
+            setDeletingElementIndex(-1)
+        }
     };
 
     useEffect(() => {
         getAllParticipants()
-    }, [])
+    }, []);
+
+    if (mainLoading) {
+        return <MainPageLoadings />
+    }
+
 
     return (
         <div className="flex flex-col gap-6">
@@ -273,41 +293,42 @@ export default function AdminParticipantsPage() {
             </form>
 
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                {participants.map((participant) => (
-                    <div
-                        key={participant._id}
-                        className="group rounded-2xl border border-emerald-200 bg-white p-4 text-center shadow-sm transition duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-lg"
-                    >
-                        <img
-                            src={participant.country.countryImageUrl}
-                            alt={participant.country.countryName}
-                            className="mx-auto mb-3 h-20 w-20 rounded-full object-cover ring-2 ring-transparent transition group-hover:ring-emerald-300"
-                        />
+                {participants.map((participant, index) => (
+                    deleteItemLoading && index == deletingElementIndex ? <DeleteElement /> :
+                        <div
+                            key={participant._id}
+                            className="group rounded-2xl border border-emerald-200 bg-white p-4 text-center shadow-sm transition duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-lg"
+                        >
+                            <img
+                                src={participant.country.countryImageUrl}
+                                alt={participant.country.countryName}
+                                className="mx-auto mb-3 h-20 w-20 rounded-full object-cover ring-2 ring-transparent transition group-hover:ring-emerald-300"
+                            />
 
-                        <span className="block text-sm font-semibold text-gray-800">
-                            {participant.participantName}
-                        </span>
+                            <span className="block text-sm font-semibold text-gray-800">
+                                {participant.participantName}
+                            </span>
 
-                        <span className="mb-3 block text-xs text-gray-500">
-                            {participant.country.countryName}
-                        </span>
+                            <span className="mb-3 block text-xs text-gray-500">
+                                {participant.country.countryName}
+                            </span>
 
-                        <div className="flex justify-center gap-3">
-                            <button
-                                onClick={() => handleEdit(participant)}
-                                className="rounded-lg p-2 text-emerald-600 transition hover:bg-emerald-100"
-                            >
-                                <Pencil size={18} />
-                            </button>
+                            <div className="flex justify-center gap-3">
+                                <button
+                                    onClick={() => handleEdit(participant)}
+                                    className="rounded-lg p-2 text-emerald-600 transition hover:bg-emerald-100"
+                                >
+                                    <Pencil size={18} />
+                                </button>
 
-                            <button
-                                onClick={() => handleDelete(participant._id)}
-                                className="rounded-lg p-2 text-red-500 transition hover:bg-red-100"
-                            >
-                                <Trash2 size={18} />
-                            </button>
+                                <button
+                                    onClick={() => handleDelete(participant._id, index)}
+                                    className="rounded-lg p-2 text-red-500 transition hover:bg-red-100"
+                                >
+                                    <Trash2 size={18} />
+                                </button>
+                            </div>
                         </div>
-                    </div>
                 ))}
             </div>
         </div>

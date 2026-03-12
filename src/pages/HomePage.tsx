@@ -8,6 +8,8 @@ import { api } from "../services/axios";
 import type { Country } from "../types/country";
 import type { Participant } from "../types/participant";
 import { ShowResult } from "./ShowResult";
+import MainPageLoadings from "../loadings/MainPageLoadings";
+import SendLoading from "../loadings/SendLoading";
 
 const getYoutubeEmbedUrl = (url?: string) => {
   if (!url) return "";
@@ -42,10 +44,11 @@ export default function HomePage() {
   const [myCountry, setMyCountry] = useState<Participant | null>(null);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [selectedVotes, setSelectedVotes] = useState<Record<string, number>>({});
-  const [showMyResult, setShowMyResult] = useState<boolean>(false)
+  const [showMyResult, setShowMyResult] = useState<boolean>(false);
+
 
   useEffect(() => {
-    dispatch(fetchCountries());
+    dispatch(fetchCountries())
   }, [dispatch]);
 
   const startVoting = async () => {
@@ -130,7 +133,7 @@ export default function HomePage() {
           open: true,
           type: "error",
           title: "Tam deyil",
-          message: "Bütün iştirakçılara bal verilməlidir",
+          message: "Bütün ballar verilməlidir",
         })
       );
       return;
@@ -187,6 +190,10 @@ export default function HomePage() {
   const clearData = () => {
     setSelectedVotes({});
     setShowMyResult(false)
+  }
+
+  if (loading) {
+    return <MainPageLoadings />
   }
 
   return (
@@ -430,6 +437,13 @@ export default function HomePage() {
           <ShowResult submitVotes={submitVotes} clearData={clearData} selectedVotes={selectedVotes} participants={participants} />
         )
       }
+
+      {
+        submittingVotes && (
+          <SendLoading />
+        )
+      }
+
     </div>
   );
 }
