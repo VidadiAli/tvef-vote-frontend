@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tvef-vote-frontend",
+  "name": "tvef",
   "compatibility_date": "2025-09-27",
   "observability": {
     "enabled": true
