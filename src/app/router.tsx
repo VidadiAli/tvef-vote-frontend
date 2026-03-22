@@ -5,6 +5,8 @@ import ParticipantsPage from "../features/participants/ParticipantsPage";
 import AdminCountriesPage from "../pages/AdminCountriesPage";
 import AdminParticipantsPage from "../pages/AdminParticipantsPage";
 import AdminLayout from "../components/layout/AdminLayout";
+import TeleUsers from "../pages/TeleUsers";
+import TeleVotes from "../pages/TeleVotes";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +29,15 @@ export const router = createBrowserRouter([
         path: "participants",
         element: <AdminParticipantsPage />,
       },
+      {
+        path: "teleusers",
+        element: <TeleUsers />,
+      },
     ],
+  },
+  {
+    path: "televotes",
+    element: <TeleVotes />,
   },
   {
     path: "*",

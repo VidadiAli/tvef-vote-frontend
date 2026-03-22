@@ -21,6 +21,9 @@ export default function AdminLayout() {
             <NavLink to="/admin/participants" className={linkClass}>
               Participants
             </NavLink>
+            <NavLink to="/admin/teleusers" className={linkClass}>
+              Tele Users
+            </NavLink>
           </div>
         </aside>
 

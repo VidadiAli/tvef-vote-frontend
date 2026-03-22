@@ -10,6 +10,7 @@ import type { Participant } from "../types/participant";
 import { ShowResult } from "./ShowResult";
 import MainPageLoadings from "../loadings/MainPageLoadings";
 import SendLoading from "../loadings/SendLoading";
+import { NavLink } from "react-router-dom";
 
 const getYoutubeEmbedUrl = (url?: string) => {
   if (!url) return "";
@@ -204,6 +205,10 @@ export default function HomePage() {
           <p className="mt-2 text-sm text-white/90 md:text-base">
             Ölkəni seç, semifinalı təyin et və balları paylaş.
           </p>
+        </div>
+
+        <div>
+          <NavLink to={'/televotes'}>Tele Vote</NavLink>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
