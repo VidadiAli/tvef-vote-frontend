@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux";
 import { showResponse } from "../features/ui/uiSlice";
 import { api } from "../services/axios";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +42,7 @@ const LoginPage = () => {
         })
       );
 
-      navigate("/admin/countries");
+      window.location.href = "/admin/countries";
     } catch (error: any) {
       dispatch(
         showResponse({
