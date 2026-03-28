@@ -49,7 +49,7 @@ export const addTeleUser = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const res = await api.post("/teleVotes/addTeleUser", {
+      const res = await api.post("/teleVotes/admin/addTeleUser", {
         ...payload,
         edition: 11,
       });

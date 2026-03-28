@@ -201,14 +201,39 @@ export default function HomePage() {
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex w-[94%] max-w-7xl flex-col gap-6 py-8">
         <div className="rounded-3xl bg-gradient-to-r from-violet-600 to-cyan-500 p-6 text-white shadow-lg">
-          <h1 className="text-2xl font-bold md:text-4xl">Eurofans Vote</h1>
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-bold md:text-4xl">Eurofans Vote</h1>
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                `group inline-flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-medium transition-all duration-300 ${isActive
+                  ? "border-violet-600 bg-violet-600 text-white shadow-md shadow-violet-200"
+                  : "border-slate-200 bg-white text-slate-700 shadow-sm hover:-translate-y-0.5 hover:border-violet-300 hover:text-violet-700 hover:shadow-md"
+                }`
+              }
+            >
+
+              Admin Page
+            </NavLink>
+          </div>
           <p className="mt-2 text-sm text-white/90 md:text-base">
             Ölkəni seç, semifinalı təyin et və balları paylaş.
           </p>
         </div>
 
-        <div>
-          <NavLink to={'/televotes'}>Tele Vote</NavLink>
+        <div className="flex justify-center">
+          <NavLink
+            to="/televotes"
+            className={({ isActive }) =>
+              `group inline-flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-medium transition-all duration-300 ${isActive
+                ? "border-violet-600 bg-violet-600 text-white shadow-md shadow-violet-200"
+                : "border-slate-200 bg-white text-slate-700 shadow-sm hover:-translate-y-0.5 hover:border-violet-300 hover:text-violet-700 hover:shadow-md"
+              }`
+            }
+          >
+            <span className="h-2 w-2 rounded-full bg-current opacity-70 transition-all duration-300 group-hover:scale-125"></span>
+            Tele Vote
+          </NavLink>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">

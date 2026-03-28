@@ -31,12 +31,38 @@ export default function AdminCountriesPage() {
 
     const submitForm = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (form.countryName.trim() === '') {
+            dispatch(
+                showResponse({
+                    open: true,
+                    type: "error",
+                    title: "Add country name",
+                    message: editCountry ? "Country didn't updated!" : "Country didn't created!",
+                })
+            );
+            return;
+        }
+
+            if (form.countryImageUrl.trim() === '') {
+            dispatch(
+                showResponse({
+                    open: true,
+                    type: "error",
+                    title: "Past Flag's image url",
+                    message: editCountry ? "Country didn't updated!" : "Country didn't created!",
+                })
+            );
+            return;
+        }
+
+
         try {
             setLoading(true);
 
             const res = editCountry ?
-                await api.patch(`/country/updateCountryById/${editCountry}`, form) :
-                await api.post('/country/addCountry', form)
+                await api.patch(`/country/admin/updateCountryById/${editCountry}`, form) :
+                await api.post('/country/admin/addCountry', form)
 
             dispatch(
                 showResponse({
@@ -100,7 +126,7 @@ export default function AdminCountriesPage() {
         try {
             setDeleteItemLoading(true)
             setDeletingElementIndex(index)
-            const res = await api.delete(`/country/deleteCountryById/${id}`);
+            const res = await api.delete(`/country/admin/deleteCountryById/${id}`);
             setCountries(res?.data?.newData)
         }
         catch (error: any) {
@@ -166,7 +192,7 @@ export default function AdminCountriesPage() {
             </form>
 
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                {countries.map((country, index) => (
+                {countries?.map((country, index) => (
                     deleteItemLoading && index == deletingElementIndex ? <DeleteElement /> :
                         <div
                             key={country._id}

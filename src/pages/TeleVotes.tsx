@@ -156,6 +156,18 @@ const TeleVotes = () => {
       return;
     }
 
+    if (remainingPoints > 0) {
+      dispatch(
+        showResponse({
+          open: true,
+          type: "error",
+          title: "Xəta",
+          message: `Qalan bal 0 olmalıdır`,
+        })
+      );
+      return;
+    }
+
     const resultAction = await dispatch(
       addTeleVote({
         teleUser,

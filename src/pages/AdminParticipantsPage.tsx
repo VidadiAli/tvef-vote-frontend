@@ -83,17 +83,59 @@ export default function AdminParticipantsPage() {
             setLoading(true);
 
             const payload = {
-                participantName: form.participantName,
+                participantName: form.participantName.trim(),
                 hasYoutubeLink: form.hasYoutubeLink,
-                youtubeLink: form.hasYoutubeLink ? form.youtubeLink : "",
-                country: form.country,
-                semiFinal: form.semiFinal,
+                youtubeLink: form.hasYoutubeLink ? form.youtubeLink.trim() : "",
+                country: form.country.trim(),
+                semiFinal: form.semiFinal.trim(),
                 edition: Number(form.edition),
             };
 
+            if (payload.participantName.trim() === '') {
+                dispatch(
+                    showResponse({
+                        open: true,
+                        type: "error",
+                        title: "Add Participant Name!",
+                        message: editParticipant
+                            ? "Participant didn't updated!"
+                            : "Participant didn't created!",
+                    })
+                );
+                return;
+            }
+
+            if (payload.country.trim() === '') {
+                dispatch(
+                    showResponse({
+                        open: true,
+                        type: "error",
+                        title: "Select Country!",
+                        message: editParticipant
+                            ? "Participant didn't updated!"
+                            : "Participant didn't created!",
+                    })
+                );
+                return;
+            }
+
+            if (payload.hasYoutubeLink && payload.youtubeLink === '') {
+                dispatch(
+                    showResponse({
+                        open: true,
+                        type: "error",
+                        title: "Past youtube link",
+                        message: editParticipant
+                            ? "Participant didn't updated!"
+                            : "Participant didn't created!",
+                    })
+                );
+                return;
+            }
+
             const res = editParticipant
-                ? await api.patch(`/participant/updateParticipantById/${editParticipant}`, payload)
-                : await api.post("/participant/addParticipant", payload);
+                ? await api.patch(`/participant/admin/updateParticipantById/${editParticipant}`, payload)
+                : await api.post("/participant/admin/addParticipant", payload);
 
             dispatch(
                 showResponse({
@@ -147,7 +189,7 @@ export default function AdminParticipantsPage() {
                 })
             );
         }
-        finally{
+        finally {
             setMainLoading(false)
         }
     }
@@ -168,7 +210,7 @@ export default function AdminParticipantsPage() {
         try {
             setDeleteItemLoading(true)
             setDeletingElementIndex(index)
-            const res = await api.delete(`/participant/deleteParticipantById/${id}`);
+            const res = await api.delete(`/participant/admin/deleteParticipantById/${id}`);
             setParticipants(res?.data?.newData)
         } catch (error: any) {
             dispatch(
@@ -293,7 +335,7 @@ export default function AdminParticipantsPage() {
             </form>
 
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                {participants.map((participant, index) => (
+                {participants?.map((participant, index) => (
                     deleteItemLoading && index == deletingElementIndex ? <DeleteElement /> :
                         <div
                             key={participant._id}

@@ -7,6 +7,7 @@ import AdminParticipantsPage from "../pages/AdminParticipantsPage";
 import AdminLayout from "../components/layout/AdminLayout";
 import TeleUsers from "../pages/TeleUsers";
 import TeleVotes from "../pages/TeleVotes";
+import LoginPage from "../pages/LoginPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
   {
     path: "televotes",
     element: <TeleVotes />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
   {
     path: "*",

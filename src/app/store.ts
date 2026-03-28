@@ -4,6 +4,7 @@ import countriesReducer from "../features/countries/countriesSlice";
 import votingReducer from "../features/voting/votingSlice";
 import teleUsersReducer from "../features/teleUsers/teleUsersSlice";
 import teleVotesReducer from "../features/teleVotes/teleVotesSlice";
+import adminReducer from "../features/admin/adminSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,8 +13,15 @@ export const store = configureStore({
     voting: votingReducer,
     teleUsers: teleUsersReducer,
     teleVotes: teleVotesReducer,
+    admin: adminReducer
   },
 });
+
+// type AdminState = {
+//   profile: AdminType | null;
+//   loading: boolean;
+//   checked: boolean;
+// };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
